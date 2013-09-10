@@ -1,8 +1,12 @@
 #encoding: utf-8
 class CanvasController < ApplicationController
   before_action :set_canva, only: [:delete, :update_canva, :fetch_canva, :save, :add_item, :remove_item]
-  before_filter :check_session
+  before_filter :check_session, except: [:canvas]
   before_action :check_owner, only: [:delete, :update_canva, :fetch_canva, :save, :add_item, :remove_item]
+  
+  def canvas
+    render "canvas/index"
+  end
   
   def fetch
     canvas=Canva.where(:proyecto_id=>params["proyecto_id"])

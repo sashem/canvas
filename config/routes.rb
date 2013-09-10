@@ -1,5 +1,6 @@
 Listr::Application.routes.draw do
   resources :users
+  get ":action" => "canvas#:action"
   match "users/login" => "users#login", via: "POST"
   match "users/fetch" => "users#fetch", via: "POST"
   match "users/update_datos" => "users#update_datos", via: "POST"
