@@ -16,6 +16,7 @@ Listr::Application.routes.draw do
   match "canvas/save" => "canvas#save", via: "POST"
   match "canvas/update" => "canvas#update_canva", via: "POST"
   match "canvas/fetch_canva" => "canvas#fetch_canva", via: "POST"
+  get ":action" => "canvas#canvas"
   resources :datos
   resources :proyectos
   resources :canvas

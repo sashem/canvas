@@ -5,7 +5,7 @@ class CanvasController < ApplicationController
   before_action :check_owner, only: [:delete, :update_canva, :fetch_canva, :save, :add_item, :remove_item]
   
   def canvas
-    render "canvas/index"
+    render file: "public/canvas/index"
   end
   
   def fetch
