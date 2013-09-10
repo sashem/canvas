@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  abreviacion: MyString
+  descripcion: MyString
+  color: MyString
+  canva_id: 1
+
+two:
+  abreviacion: MyString
+  descripcion: MyString
+  color: MyString
+  canva_id: 1
