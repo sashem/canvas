@@ -4,7 +4,6 @@ require ::File.expand_path('../config/environment',  __FILE__)
 run Listr::Application
 
 use Rack::Static, 
-  :urls => ["/imgs", "/js", "/css"],
   :root => "public"
 
 run lambda { |env|
