@@ -4,6 +4,7 @@ require ::File.expand_path('../config/environment',  __FILE__)
 run Listr::Application
 
 use Rack::Static, 
+  :urls => ["/imgs", "/js", "/css"],
   :root => "public"
 
 run lambda { |env|
@@ -12,6 +13,7 @@ run lambda { |env|
     {
       'Content-Type'  => 'text/html', 
       'Cache-Control' => 'public, max-age=86400' 
-    },
+    }
+    #File.open('./public/canvas/index.html', File::RDONLY)
   ]
 }
