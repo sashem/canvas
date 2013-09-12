@@ -8,7 +8,7 @@ group :development,:test do
   
 end
 #gem "twitter-bootstrap-rails", "~> 2.0rc0"
-gem 'sass', '4.0.0'
+gem 'sass-rails', '4.0.0'
 gem 'rack'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'uglifier', '2.1.1'
