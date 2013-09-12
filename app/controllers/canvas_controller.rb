@@ -144,6 +144,7 @@ class CanvasController < ApplicationController
         canales_attributes:[:id, :abreviacion, :descripcion, :color],
         relaciones_attributes:[:id, :abreviacion, :descripcion, :color],
         costos_attributes:[:id, :abreviacion, :descripcion, :color],
+        socios_attributes:[:id, :abreviacion, :descripcion, :color],
         ingresos_attributes:[:id, :abreviacion, :descripcion, :color])
     end
 end

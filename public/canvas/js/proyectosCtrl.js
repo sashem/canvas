@@ -5,7 +5,7 @@ function proyectosCtrl($scope, $dialog, $http, mensajeria){
 	$scope.user;
 	$scope.opcion="1";
 	proyecto={};
-	SERVER_URL="../";
+	SERVER_URL="http://calm-meadow-8426.herokuapp.com/";
 	$http({method: 'POST', url: SERVER_URL+'proyectos/fetch', data:{cookie:$.cookie("session_key")}}).
 		  success(function(data, status, headers, config) {
 			$scope.proyectos=data.proyectos;

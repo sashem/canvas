@@ -1,17 +1,19 @@
 function canvasCtrl($scope, $dialog, $http, mensajeria,$routeParams){
 		   /* ################# INICIALIZACIÓN DE VARIABLES ######################## */
-		  SERVER_URL="../";
+		  SERVER_URL="http://calm-meadow-8426.herokuapp.com/";
 		  historial_id="historial"+$routeParams.id;
 		  $scope.actualizable={};
 		  $scope.active_color="";
 		  $scope.active_color2="";
 		  result=false;
+		  
 		  $scope.historial=$.jStorage.get(historial_id)?$.jStorage.get(historial_id):[];
 		  $scope.colors={color1:"#FFCCCC",color2:"#D1D8FF",color3:"#CEFFC9",color4:"#FFFEBF",color5:"#B5EEFF"};
 		  
 		  $http({method: 'POST', url: SERVER_URL+'canvas/fetch_canva', data:{id:$routeParams.id,cookie:$.cookie("session_key")}}).
 		  success(function(data, status, headers, config) {
-			$scope.canva=data.canva;	
+			$scope.canva=data.canva;
+			console.log($scope.canva);
 		  }).
 		  error(function(data, status, headers, config) {
 		    // called asynchronously if an error occurs

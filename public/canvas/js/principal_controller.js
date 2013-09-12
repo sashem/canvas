@@ -1,4 +1,6 @@
-SERVER_URL="../";
+SERVER_URL="http://calm-meadow-8426.herokuapp.com/";
+
+	
 main = angular.module('principal',['ui.bootstrap']).config(['$routeProvider', function($routeProvider){
 	$routeProvider.
 	when('/main', {templateUrl: 'views/main.html'}).
@@ -29,10 +31,6 @@ function loginCtrl($scope,$http,mensajeria){
 	if($.jStorage.get("user")){
 		$scope.recordar=true;
 	}
-	if($.cookie("session_key")){
-		session_init();
-		return;
-	}
 	else{
 		$("#session-menu").hide();
 	}
@@ -41,7 +39,6 @@ function loginCtrl($scope,$http,mensajeria){
 		  success(function(data, status, headers, config) {
 		    $.cookie("session_key", data.cookie, { expires: 1 });
 		    mensajeria.push(data.msge);
-		    console.log(data);
 		    if(data.cookie!=null){
 		    	session_init();
 		    	if($scope.recordar){
@@ -76,7 +73,9 @@ function mensajesCtrl($scope,mensajeria){
  };
 }
 function session_init(){
+	$("#login-form").css({display:"inherit"});
 	$("#login-form").hide();
+	$("#intro").show();
 	$("#session-menu").show();
 }
 function session_close(){
