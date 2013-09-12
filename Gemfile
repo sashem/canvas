@@ -7,6 +7,7 @@ group :development,:test do
   gem 'sqlite3', '1.3.8'
   
 end
+#gem "twitter-bootstrap-rails", "~> 2.0rc0"
 gem 'sass-rails'
 gem 'rack'
 gem 'rack-cors', :require => 'rack/cors'
