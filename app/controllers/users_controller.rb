@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_filter :set_access_control_headers
   before_filter :check_session, :except => [:login,:show,:index,:create,:update,:new]
-  before_filter :check_admin
+  before_filter :check_admin, :except => [:login, :fetch, :update_datos]
   def index
     @users = User.all
   end
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   end
   
   def fetch
-    p User.where(:session_key=>params["cookie"]).first.dato
+    #p User.where(:session_key=>params["cookie"]).first.dato
     respond_to do |format|
         format.html{ render json: User.where(:session_key=>params["cookie"]).first}
     end  
