@@ -1,5 +1,7 @@
 Listr::Application.routes.draw do
   resources :users
+  resources :sessions
+  match "sessions/destroy" => "sessions#destroy", via: "POST"
   get ":action" => "canvas#:action"
   match "users/login" => "users#login", via: "POST"
   match "users/fetch" => "users#fetch", via: "POST"
@@ -74,8 +76,6 @@ Listr::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => "tasks#index"
-
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.

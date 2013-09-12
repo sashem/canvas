@@ -17,4 +17,10 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+  def check_admin
+    if session[:user_role]!=0
+      flash.now.alert = "Invalid email or password"
+      redirect_to "/sessions/new"
+    end
+  end
 end

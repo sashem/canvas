@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_filter :set_access_control_headers
   before_filter :check_session, :except => [:login,:show,:index,:create,:update,:new]
-  
+  before_filter :check_admin
   def index
     @users = User.all
   end
