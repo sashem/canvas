@@ -1,6 +1,7 @@
 class Canva < ActiveRecord::Base
   belongs_to :proyecto
   
+  has_many :mensajes, :dependent => :destroy
   has_many :propuestas, :dependent => :destroy
   has_many :recursos, :dependent => :destroy
   has_many :actividades, :dependent => :destroy
@@ -11,6 +12,6 @@ class Canva < ActiveRecord::Base
   has_many :costos, :dependent => :destroy
   has_many :ingresos, :dependent => :destroy
   
-  accepts_nested_attributes_for :propuestas,:recursos,:actividades,:canales,:relaciones,:segmentos,:socios,:costos,:ingresos
+  accepts_nested_attributes_for :propuestas,:recursos,:actividades,:canales,:relaciones,:segmentos,:socios,:costos,:ingresos, :mensajes
 
 end

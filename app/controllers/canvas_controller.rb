@@ -110,9 +110,11 @@ class CanvasController < ApplicationController
       end
     end
   end
-
+  
+  
+  
   def set_access_control_headers 
-      headers['Access-Control-Allow-Origin'] = '*'
+      headers['Access-Control-Allow-Origin'] = ['localhost','http://calm-meadow-8426.herokuapp.com/']
       headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
       headers['Access-Control-Max-Age'] = '6000'
       headers['Access-Control-Allow-Headers'] = '*,x-requested-with'
@@ -146,5 +148,8 @@ class CanvasController < ApplicationController
         costos_attributes:[:id, :abreviacion, :descripcion, :color],
         socios_attributes:[:id, :abreviacion, :descripcion, :color],
         ingresos_attributes:[:id, :abreviacion, :descripcion, :color])
+    end
+    def mensaje_params
+      params.require(:canva).permit(:id,mensajes_attributes:[:id,:contenido]);
     end
 end
