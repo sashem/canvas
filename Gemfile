@@ -7,7 +7,7 @@ group :development,:test do
   gem 'sqlite3', '1.3.8'
   
 end
-gem 'sass-rails', '4.0.0'
+gem 'sass-rails'
 gem 'rack'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'uglifier', '2.1.1'
