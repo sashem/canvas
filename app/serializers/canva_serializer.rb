@@ -9,4 +9,5 @@ class CanvaSerializer < ActiveModel::Serializer
   has_many :socios, key: :socios_attributes
   has_many :costos, key: :costos_attributes
   has_many :ingresos, key: :ingresos_attributes
+  has_many :mensajes, key: :mensajes
 end
