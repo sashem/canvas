@@ -6,7 +6,7 @@ class MensajesController < ApplicationController
     mensaje=Mensaje.create(mensaje_params)
     mensaje.user_id=params[:my_user_id__]
     if mensaje.save()
-      response={msge:{type: 'warning', msg:"¡Estos no son sus canvas!"},msjes:Mensaje.canvas.mensajes}
+      response={msge:{type: 'warning', msg:"¡Estos no son sus canvas!"},msjes:Mensaje.canva.mensajes}
       respond_to do |format|
         format.html{ render json: response }
       end
