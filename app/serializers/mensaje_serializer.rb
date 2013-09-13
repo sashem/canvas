@@ -1,5 +1,5 @@
 class MensajeSerializer < ActiveModel::Serializer
-  attributes :contenido, :username
+  attributes :id,:contenido, :username
   def username
     object.user.username
   end

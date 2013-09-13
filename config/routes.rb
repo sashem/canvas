@@ -19,6 +19,7 @@ Listr::Application.routes.draw do
   match "canvas/update" => "canvas#update_canva", via: "POST"
   match "canvas/fetch_canva" => "canvas#fetch_canva", via: "POST"
   match "mensajes/create" => "mensajes#create", via: "POST"
+  match "mensajes/delete" => "mensajes#delete", via: "POST"
   get ":action" => "canvas#canvas"
   resources :datos
   resources :proyectos
