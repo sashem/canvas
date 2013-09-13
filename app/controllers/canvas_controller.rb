@@ -111,10 +111,8 @@ class CanvasController < ApplicationController
     end
   end
   
-  
-  
   def set_access_control_headers 
-      headers['Access-Control-Allow-Origin'] = ['localhost','http://calm-meadow-8426.herokuapp.com/']
+      headers['Access-Control-Allow-Origin'] = ['localhost','http://calm-meadow-8426.herokuapp.com/','www.cec.uchile.cl/~sharfagar/canvasHelper']
       headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
       headers['Access-Control-Max-Age'] = '6000'
       headers['Access-Control-Allow-Headers'] = '*,x-requested-with'
