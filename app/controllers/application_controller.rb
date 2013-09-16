@@ -6,8 +6,10 @@ class ApplicationController < ActionController::Base
     cookie=params["cookie"]
     if User.where(:session_key=>cookie).exists?
       @user_id=User.where(:session_key=>cookie).first.id
-      params[:my_user_id__]=@user_id
-      p params[:my_user_id__]
+      params[:user_id]=@user_id
+      ##sign_in(User.find_by(:session_key=>cookie))
+      @current_user=User.find_by(:session_key=>cookie)
+      #p params[:my_user_id__]
       return
     end
     if !User.where(:session_key=>cookie).exists?

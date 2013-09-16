@@ -5,7 +5,8 @@ class ProyectosController < ApplicationController
   before_action :check_owner, only: [:delete, :update_proyecto]
   
   def fetch
-    proyectos=Proyecto.where(:user_id=>@user_id)
+    proyectos=(Proyecto.where(:user_id=>@user_id)+Proyecto.includes(:permisos).where("permisos.user_id"=>@user_id)).uniq
+    #p Proyecto.find(23).permisos.all
     respond_to do |format|
         format.html{ render json: proyectos}
     end
@@ -14,9 +15,9 @@ class ProyectosController < ApplicationController
   def update_proyecto
     respond_to do |format|
       if @proyecto.update(proyecto_params)
-        proyectos=Proyecto.where(:user_id=>@user_id)
-        response={msge:{type: 'success', msg:"Proyecto actualizado satisfactoriamente"},proyectos:proyectos}
-        format.html { render json: response}
+        proyectos=(Proyecto.where(:user_id=>@user_id)+Proyecto.includes(:permisos).where("permisos.user_id"=>@user_id)).uniq
+        #response={msge:{type: 'success', msg:"Proyecto actualizado satisfactoriamente"},proyectos:proyectos}
+        format.html { render :json => proyectos, meta: {msge:{type: 'success', msg:"Proyecto actualizado satisfactoriamente"}}}
       else
         response={msge:{type: 'warning', msg:"Ocurrió un error en el servidor"}}
         format.html { render json: response }
@@ -29,8 +30,8 @@ class ProyectosController < ApplicationController
     @proyecto.user_id=@user_id
     respond_to do |format|
       if @proyecto.save
-        response={msge:{type: 'success', msg:"Proyecto creado satisfactoriamente"},proyecto:@proyecto}
-        format.html { render json: response}
+        #response={msge:{type: 'success', msg:"Proyecto creado satisfactoriamente"},proyecto:@proyecto}
+        format.html { render :json => @proyecto, meta: {msge:{type: 'success', msg:"Proyecto creado satisfactoriamente"}}}
       else
         response={msge:{type: 'warning', msg:"Ocurrió un error en el servidor"}}
         format.html { render json: response }
@@ -44,8 +45,8 @@ class ProyectosController < ApplicationController
     respond_to do |format|
       if @proyecto.destroy
         proyectos=Proyecto.where(:user_id=>@user_id)
-        response={msge:{type: 'success', msg:"Proyecto eliminado satisfactoriamente"},proyectos:proyectos}
-        format.html { render json: response}
+        #response={msge:{type: 'success', msg:"Proyecto eliminado satisfactoriamente"},proyectos:proyectos}
+        format.html { render :json => proyectos, meta: {msge:{type: 'success', msg:"Proyecto eliminado satisfactoriamente"}}}
       else
         response={msge:{type: 'warning', msg:"Ocurrió un error en el servidor"}}
         format.html { render json: response }
@@ -61,10 +62,14 @@ class ProyectosController < ApplicationController
   end
 
   private
+      def current_user
+        return @current_user if defined?(@current_user)
+      end
+      
       def check_owner
-        if @proyecto.user_id!=params[:my_user_id__]
-          p @proyecto.user_id
-          p params[:my_user_id__]
+        if @proyecto.user_id!=params[:user_id]
+          #@proyecto.user_id
+          p params[:user_id]
           response={msge:{type: 'warning', msg:"¡Estos no son sus proyectos!"}}
           respond_to do |format|
             format.html{ render json: response }

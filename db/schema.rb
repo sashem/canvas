@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130912194904) do
+ActiveRecord::Schema.define(version: 20130916030109) do
 
   create_table "actividades", force: true do |t|
     t.string   "abreviacion"
@@ -77,6 +77,21 @@ ActiveRecord::Schema.define(version: 20130912194904) do
     t.string   "contenido"
     t.integer  "user_id"
     t.integer  "canva_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "notificaciones", force: true do |t|
+    t.integer  "user_id"
+    t.string   "contenido"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "permisos", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "proyecto_id"
+    t.integer  "valor"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -5,6 +5,7 @@ Listr::Application.routes.draw do
   get ":action" => "canvas#:action"
   match "users/login" => "users#login", via: "POST"
   match "users/fetch" => "users#fetch", via: "POST"
+  match "users/fetch_all" => "users#fetch_all", via: "POST"
   match "users/update_datos" => "users#update_datos", via: "POST"
   match "proyectos/fetch" => "proyectos#fetch", via: "POST"
   match "proyectos/create" => "proyectos#create", via: "POST"
@@ -20,13 +21,15 @@ Listr::Application.routes.draw do
   match "canvas/fetch_canva" => "canvas#fetch_canva", via: "POST"
   match "mensajes/create" => "mensajes#create", via: "POST"
   match "mensajes/delete" => "mensajes#delete", via: "POST"
+  match "permisos/fetch" => "permisos#fetch", via: "POST"
+  match "permisos/create" => "permisos#create", via: "POST"
+  match "permisos/edit" => "permisos#edit", via: "POST"
+  match "permisos/delete" => "permisos#delete", via: "POST"
   get ":action" => "canvas#canvas"
   resources :datos
   resources :proyectos
   resources :canvas
-  resources :lists, :only => [:create, :destroy] do
-    resources :tasks, :except => [:new, :edit, :show]
-  end
+  
   
   
   # The priority is based upon order of creation:

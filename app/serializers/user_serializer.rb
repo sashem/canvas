@@ -1,4 +1,4 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :username
+  attributes :id,:username
   has_one :dato, key: :dato_attributes
 end

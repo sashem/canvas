@@ -1,17 +1,19 @@
 #encoding: utf-8
 class CanvasController < ApplicationController
-  before_action :set_canva, only: [:delete, :update_canva, :fetch_canva, :save, :add_item, :remove_item]
-  before_filter :check_session, except: [:canvas]
-  before_action :check_owner, only: [:delete, :update_canva, :fetch_canva, :save, :add_item, :remove_item]
+  before_action :set_canva, only: [:create,:delete, :update_canva, :fetch_canva, :save, :add_item, :remove_item]
+  before_filter :check_session
+  before_action :check_owner, only: [:delete]
+  before_action :check_can_edit, only: [:update_canva, :save, :add_item, :remove_item,:create]
+  before_action :check_can_view, only: [:fetch_canva]
   
-  def canvas
-    render file: "public/canvas/index"
-  end
+  #def canvas
+  #  render file: "public/canvas/index"
+  #end
   
   def fetch
     canvas=Canva.where(:proyecto_id=>params["proyecto_id"])
     respond_to do |format|
-        format.html{ render json: {canvas:canvas}}
+        format.html{ render json: canvas, each_serializer: CanvaexpressSerializer}
     end
   end
   def fetch_canva
@@ -62,8 +64,6 @@ class CanvasController < ApplicationController
   end
 
   def create
-    @canva = Canva.new(canva_params)
-    @canva.proyecto_id=params[:proyecto_id]
     respond_to do |format|
       if @canva.save
         response={msge:{type: 'success', msg:"Canvas creado satisfactoriamente"},canva:@canva}
@@ -90,22 +90,21 @@ class CanvasController < ApplicationController
 
   def add_item
     respond_to do |format|
-      p canva_params
-      if @canva.update(canva_params)
+      if @canva.update(canva_params) and @canva.proyecto.touch(:updated_at)
         format.html { render json: @canva}
       end
     end
   end
   
-  def remove_item
+  def remove_item 
     seccion=params[:seccion].gsub("_attributes","")
     respond_to do |format|
       if params[:id_a_borrar]==-1
-        if @canva.send(seccion).last.delete
+        if @canva.send(seccion).last.delete and @canva.proyecto.touch(:updated_at)
           format.html { render json: @canva}
         end
       end
-      if params[:id_a_borrar]!=-1 and @canva.send(seccion).delete(params[:id_a_borrar])
+      if params[:id_a_borrar]!=-1 and @canva.send(seccion).delete(params[:id_a_borrar]) and @canva.proyecto.touch(:updated_at)
         format.html { render json: @canva}
       end
     end
@@ -119,19 +118,46 @@ class CanvasController < ApplicationController
   end
 
   private
+    def current_user
+      return @current_user if defined?(@current_user)
+    end
     def check_owner
-        if @canva.proyecto.user_id!=params[:my_user_id__]
+      ## is owner
+        if @canva.proyecto.user_id!=params[:user_id]
           response={msge:{type: 'warning', msg:"¡Estos no son sus canvas!"}}
           respond_to do |format|
             format.html{ render json: response }
           end
         end
     end
+    def check_can_edit
+      if (!@canva.proyecto.permisos.where("user_id = ? AND valor <=1",params[:user_id]).exists? and @canva.proyecto.user_id!=params[:user_id])
+        response={msge:{type: 'warning', msg:"Usted no tiene derecho a editar este proyecto"}}
+          respond_to do |format|
+            format.html{ render json: response }
+          end
+      end
+    end
+    def check_can_view
+      if (!@canva.proyecto.permisos.where("user_id = ? AND valor <=2",params[:user_id]).exists? and @canva.proyecto.user_id!=params[:user_id])
+        response={msge:{type: 'warning', msg:"Usted no tiene derecho a ver este proyecto"}}
+          respond_to do |format|
+            format.html{ render json: response }
+          end
+      end
+    end
+    
   
     # Use callbacks to share common setup or constraints between actions.
     def set_canva
-      @canva = Canva.find(params[:id])
-      @proyecto_id=@canva.proyecto_id
+      if params[:id]
+        @canva = Canva.find(params[:id])
+        @proyecto_id=@canva.proyecto_id
+      end
+      if !params[:id]
+        @canva = Canva.new(canva_params)
+        @canva.proyecto_id=params[:proyecto_id]
+      end
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def canva_params
